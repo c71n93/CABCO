@@ -1,0 +1,3 @@
+# Declare components as sets of whole files in the initial prototype
+
+CABCO's initial prototype declares components explicitly as sets of files, with a whole file as the smallest supported maintenance ownership unit, to support projects without requiring language-specific source analysis. We accept the loss of finer ownership granularity: code requiring different maintenance owners within one file must be split into separate files or assigned one owner. Moving later to finer units would require revisiting ownership declarations and tooling built around file membership; this prototype constraint does not change the general definition of a component.

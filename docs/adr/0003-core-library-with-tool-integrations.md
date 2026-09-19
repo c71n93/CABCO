@@ -1,0 +1,3 @@
+# Build CABCO around a core library with tool integrations
+
+CABCO is structured as a core library exposed through CLI and MCP integrations, with possible IDE and GitHub integrations later; the initial prototype starts with the CLI. Keeping ownership and boundary logic in the library allows these integrations to reuse it, at the cost of maintaining a library interface and coordinating its consumers, rather than containing the entire framework in one standalone binary. Once integrations depend on that interface, changing the separation becomes costly, so the reusable core is an architectural commitment from the start.
