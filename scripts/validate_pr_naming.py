@@ -42,7 +42,8 @@ def main() -> int:
             text=True,
         ).stdout
     except subprocess.CalledProcessError as error:
-        print(error.stderr.strip() or "Unable to read pull request history", file=sys.stderr)
+        detail = error.stderr.strip() or "Git did not provide an error message"
+        print(f"Unable to read pull request history: {detail}", file=sys.stderr)
         return 2
 
     invalid_commits = []

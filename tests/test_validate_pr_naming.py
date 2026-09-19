@@ -48,7 +48,9 @@ class ValidatePrNamingTest(unittest.TestCase):
     def tearDown(self) -> None:
         self.temporary_directory.cleanup()
 
-    def validate(self, branch: str, head: str) -> subprocess.CompletedProcess[str]:
+    def validate(
+        self, branch: str, head: str, base: Optional[str] = None
+    ) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
             [
                 sys.executable,
@@ -56,7 +58,7 @@ class ValidatePrNamingTest(unittest.TestCase):
                 "--branch",
                 branch,
                 "--base",
-                self.base,
+                base or self.base,
                 "--head",
                 head,
             ],
@@ -157,6 +159,14 @@ class ValidatePrNamingTest(unittest.TestCase):
         result = self.validate("10-enforce-pr-naming", head)
 
         self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_unknown_revision_returns_command_error(self) -> None:
+        head = self.repository.commit("[#10] Enforce naming")
+
+        result = self.validate("10-enforce-pr-naming", head, base="unknown-base")
+
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("Unable to read pull request history:", result.stderr)
 
 
 if __name__ == "__main__":
