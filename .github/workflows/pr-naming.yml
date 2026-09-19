@@ -22,7 +22,7 @@ jobs:
           PR_BASE: ${{ github.event.pull_request.base.sha }}
           PR_HEAD: ${{ github.event.pull_request.head.sha }}
         run: >-
-          python3 scripts/validate_pr_naming.py
+          python3 .github/pr-naming/validate.py
           --branch "$PR_BRANCH"
           --base "$PR_BASE"
           --head "$PR_HEAD"

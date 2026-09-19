@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate naming for the branch and commits introduced by a pull request."""
+"""Validate naming for a GitHub pull request branch and its introduced commits."""
 
 import argparse
 import re

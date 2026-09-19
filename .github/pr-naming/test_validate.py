@@ -6,8 +6,7 @@ from pathlib import Path
 from typing import Optional
 
 
-ROOT = Path(__file__).resolve().parents[1]
-VALIDATOR = ROOT / "scripts" / "validate_pr_naming.py"
+VALIDATOR = Path(__file__).with_name("validate.py")
 
 
 class GitRepository:
