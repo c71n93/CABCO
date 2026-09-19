@@ -11,3 +11,6 @@ It aims to:
 - keep ownership rules explicit, version-controlled, and tool-independent.
 
 CABCO is currently in the design stage.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the issue-linked branch and commit
+naming rules applied to pull requests.
