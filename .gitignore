@@ -1,0 +1,7 @@
+/target/
+
+# Local artifacts left by repository tooling are not project sources.
+.venv/
+*.egg-info/
+__pycache__/
+.pytest_cache/
