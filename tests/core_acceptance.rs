@@ -1,6 +1,6 @@
 use cabco::{
-    Change, ChangeType, CollectedComparison, CollectedSnapshot, ReasonKind, SnapshotSide, Status,
-    evaluate,
+    Change, ChangeType, CollectedComparison, CollectedSnapshot, DeclarationError, EvaluationError,
+    ReasonKind, SnapshotSide, Status, evaluate,
 };
 
 fn snapshot(commit: &str, declaration: Option<&str>, files: &[&str]) -> CollectedSnapshot {
@@ -332,6 +332,35 @@ fn invalid_declarations_fail_even_when_repaired_or_no_paths_changed() {
             error.contains("bad-before") && error.contains(expected),
             "{error}"
         );
+    }
+}
+
+#[test]
+fn downstream_consumers_can_name_and_inspect_evaluation_errors() {
+    let error: EvaluationError = evaluate(CollectedComparison {
+        before: snapshot(
+            "selected-before",
+            Some("version: 2\ncomponents: {}"),
+            &["cabco.yaml"],
+        ),
+        after: snapshot(
+            "selected-after",
+            Some("version: 1\ncomponents: {}"),
+            &["cabco.yaml"],
+        ),
+        changes: vec![],
+    })
+    .unwrap_err();
+
+    match error {
+        EvaluationError::Declaration(DeclarationError::UnsupportedVersion {
+            snapshot,
+            version,
+        }) => {
+            assert_eq!(snapshot, "selected-before");
+            assert_eq!(version, 2);
+        }
+        other => panic!("unexpected evaluation error: {other}"),
     }
 }
 
